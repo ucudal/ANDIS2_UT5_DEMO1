@@ -1,0 +1,166 @@
+@baseUrl = http://localhost:5101
+@json = application/json
+
+### Health check simple (opcional, si agregas un endpoint de salud)
+GET {{baseUrl}}/api/users
+Accept: {{json}}
+
+###
+
+# =========================
+# USERS
+# =========================
+
+# Create User (Alice)
+POST {{baseUrl}}/api/users
+Content-Type: {{json}}
+
+{
+  "email": "jane@example.com",
+  "name": "Jane"
+}
+
+###
+
+# List Users
+GET {{baseUrl}}/api/users
+Accept: {{json}}
+
+###
+
+# Get User by Id 
+# Replazar con resultado del List Users
+@userId = 57fb76aa-92af-420f-a5a8-81a42ebfc949
+GET {{baseUrl}}/api/users/{{userId}}
+Accept: {{json}}
+
+###
+
+# Update User name
+PUT {{baseUrl}}/api/users/{{userId}}
+Content-Type: {{json}}
+
+{
+  "name": "Jane Updated"
+}
+
+###
+
+# Delete User
+DELETE {{baseUrl}}/api/users/{{userId}}
+Accept: {{json}}
+
+# =========================
+# PRODUCTS
+# =========================
+
+# Create Product Keyboard
+POST {{baseUrl}}/api/products
+Content-Type: {{json}}
+
+{
+  "sku": "SKU-1001",
+  "name": "Keyboard",
+  "price": 49.99
+}
+
+###
+
+# Create Product Mouse
+POST {{baseUrl}}/api/products
+Content-Type: {{json}}
+
+{
+  "sku": "SKU-1002",
+  "name": "Mouse",
+  "price": 24.50
+}
+
+###
+
+# Create Product Monitor
+POST {{baseUrl}}/api/products
+Content-Type: {{json}}
+
+{
+  "sku": "SKU-1003",
+  "name": "Monitor",
+  "price": 199.00
+}
+
+###
+
+# List Products
+GET {{baseUrl}}/api/products
+Accept: {{json}}
+
+###
+
+# Get Product by Id
+GET {{baseUrl}}/api/products/{{productId}}
+Accept: {{json}}
+
+###
+
+# Update Product
+PUT {{baseUrl}}/api/products/{{productId}}
+Content-Type: {{json}}
+
+{
+  "name": "Keyboard Pro",
+  "price": 79.90
+}
+
+###
+
+# Delete Product
+DELETE {{baseUrl}}/api/products/{{productId}}
+Accept: {{json}}
+
+# =========================
+# ORDERS
+# =========================
+
+# Create Order
+# Requiere un userId y productId(s) existentes
+# Reemplaza {{userId}} y los productId por los que obtengas de los endpoints anteriores
+POST {{baseUrl}}/api/orders
+Content-Type: {{json}}
+
+{
+  "userId": "{{userId}}",
+  "items": [
+    { "productId": "{{productId1}}", "quantity": 1, "unitPrice": 49.99 },
+    { "productId": "{{productId2}}", "quantity": 2, "unitPrice": 24.50 }
+  ]
+}
+
+###
+
+# List Orders
+GET {{baseUrl}}/api/orders
+Accept: {{json}}
+
+###
+
+# Get Order by Id
+GET {{baseUrl}}/api/orders/{{orderId}}
+Accept: {{json}}
+
+###
+
+# Update Order Status
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Content-Type: {{json}}
+
+{
+  "status": "Paid"
+}
+
+###
+
+# Get Order Details for User
+# Replazar con resultado del List Users
+@userId = 57fb76aa-92af-420f-a5a8-81a42ebfc949
+GET {{baseUrl}}/api/orders/user/{{userId}}/details
+Accept: {{json}}

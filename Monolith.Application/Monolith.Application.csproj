@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Monolith.Domain\Monolith.Domain.csproj" />
+    <ProjectReference Include="..\Monolith.Infrastructure\Monolith.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Monolith.Application</RootNamespace>
+  </PropertyGroup>
+
+</Project>
