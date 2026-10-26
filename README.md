@@ -387,3 +387,35 @@ entorno deja en `obj/` rutas que solo valen para ese entorno. Al pasar del Dev
 Container a local, o al revés, ejecutar `dotnet restore` antes de compilar o de
 usar `dotnet ef`; si no, aparecen errores como `Unable to retrieve project
 metadata`.
+
+## Requisitos
+
+Lo que hace falta instalar depende de cómo se trabaje con la demo:
+
+| Para | Se necesita |
+| --- | --- |
+| Compilar y ejecutar en local | SDK de .NET 10 |
+| Depurar en VS Code | Lo anterior, más VS Code con la extensión [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit), que provee el depurador `coreclr` de [launch.json](.vscode/launch.json) |
+| Probar la API | Un navegador para Swagger, o la extensión [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) de VS Code para el archivo `.http` |
+| Borrar la base con `dotnet ef` | `dotnet-ef` 10 o posterior |
+| Ejecutar en Docker | Docker con Docker Compose |
+| Usar el Dev Container | Docker y VS Code con la extensión Dev Containers |
+
+Además:
+
+- `dotnet --version` debe mostrar 10.x. La primera vez hace falta acceso a
+  internet, para que `dotnet restore` baje los paquetes NuGet.
+- `dotnet-ef` es opcional, porque la base también se puede borrar a mano.
+- Para Docker no hace falta .NET en el anfitrión, y el Dev Container ya trae
+  el SDK, C# Dev Kit y `dotnet-ef`.
+- Los puertos deben estar libres: 5101 en local y en el Dev Container, 8080 en
+  Docker.
+- No hace falta instalar SQLite ni un servidor de base de datos: el paquete
+  `Microsoft.EntityFrameworkCore.Sqlite` incluye el motor, y la aplicación crea
+  la base al arrancar.
+- No hace falta un certificado HTTPS de desarrollo: el comando de [Ejecutar
+  localmente](#ejecutar-localmente) y la configuración de depuración usan HTTP.
+
+Los pasos de cada caso están en [Ejecutar localmente](#ejecutar-localmente),
+[Ejecutar en Docker](#ejecutar-en-docker) y [Desarrollar en un Dev
+Container](#desarrollar-en-un-dev-container).
