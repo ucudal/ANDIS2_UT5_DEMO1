@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+**/*.user
+.git/
+.gitignore
+.vscode/
+.idea/
+.vs/
+Monolith.Web/Data/*.db*
+**/Dockerfile
+.dockerignore
+docker-compose*.yaml
+README.md
+.devcontainer/

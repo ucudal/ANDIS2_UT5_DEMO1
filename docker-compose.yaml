@@ -1,0 +1,15 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Monolith.Web/Dockerfile
+      target: final
+    image: andis-monolith
+    container_name: andis-monolith
+    ports:
+      - "8080:8080"
+    volumes:
+      - andis-data:/app/Data
+
+volumes:
+  andis-data:

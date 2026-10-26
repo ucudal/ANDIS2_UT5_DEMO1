@@ -2,15 +2,12 @@
 using Monolith.Domain.Products;
 using Monolith.Domain.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 namespace Monolith.Infrastructure;
 
 public class AppDbContext : DbContext
 {
-    private readonly IConfiguration _configuration;
-    public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        _configuration = configuration;
     }
 
     public DbSet<User> Users => Set<User>();

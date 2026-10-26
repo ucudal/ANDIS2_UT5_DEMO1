@@ -1,6 +1,12 @@
 @baseUrl = http://localhost:5101
 @json = application/json
 
+# Ids fijos de los datos de ejemplo (DbInitializer)
+@productId = aaaaaaaa-0000-0000-0000-000000001001
+@productId1 = aaaaaaaa-0000-0000-0000-000000001001
+@productId2 = aaaaaaaa-0000-0000-0000-000000001005
+@orderId = bbbbbbbb-0000-0000-0000-000000000001
+
 ### Health check simple (opcional, si agregas un endpoint de salud)
 GET {{baseUrl}}/api/users
 Accept: {{json}}
@@ -28,9 +34,9 @@ Accept: {{json}}
 
 ###
 
-# Get User by Id 
-# Replazar con resultado del List Users
-@userId = 57fb76aa-92af-420f-a5a8-81a42ebfc949
+# Get User by Id
+# Alice (Id fijo de los datos de ejemplo)
+@userId = 11111111-1111-1111-1111-111111111111
 GET {{baseUrl}}/api/users/{{userId}}
 Accept: {{json}}
 
@@ -160,7 +166,7 @@ Content-Type: {{json}}
 ###
 
 # Get Order Details for User
-# Replazar con resultado del List Users
-@userId = 57fb76aa-92af-420f-a5a8-81a42ebfc949
+# Alice (Id fijo de los datos de ejemplo)
+@userId = 11111111-1111-1111-1111-111111111111
 GET {{baseUrl}}/api/orders/user/{{userId}}/details
 Accept: {{json}}

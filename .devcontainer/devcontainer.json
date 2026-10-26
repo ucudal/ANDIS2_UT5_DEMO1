@@ -1,0 +1,19 @@
+{
+  "name": "ANDIS2 UT5 Demo 1",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:2-10.0",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit"
+      ]
+    }
+  },
+  "forwardPorts": [5101],
+  "portsAttributes": {
+    "5101": { "label": "Monolith.Web" }
+  },
+  "postCreateCommand": "dotnet tool install --global dotnet-ef && dotnet restore",
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/vscode/.dotnet/tools"
+  }
+}
