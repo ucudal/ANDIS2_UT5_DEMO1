@@ -195,6 +195,77 @@ de las clases `User` ni `Product`. En cambio, `Order.Items` y `OrderItem.Order`
 sí son referencias entre objetos, porque la orden y sus ítems forman un
 agregado.
 
+### Diagrama de secuencia
+
+Diagrama de secuencia
+[UML](https://github.com/ucudal/ANDIS_Conceptos/blob/main/2_Tecnicas_y_herramientas/2_04_.Modelos_de_comportamiento/2_04_03_Diagramas_de_secuencia_UML.md)
+de `GET api/orders/user/{userId}/details`: muestra cómo colaboran los objetos
+de cada capa para atender la request.
+
+```mermaid
+---
+config:
+  theme:
+    base
+  themeVariables:
+    fontSize: 14px
+    mainBkg: transparent
+    primaryTextColor: '#006EAF'
+    primaryBorderColor: '#006EAF'
+    lineColor: '#006EAF'
+    signalColor: '#006EAF'
+    signalTextColor: '#006EAF'
+    labelTextColor: '#006EAF'
+    loopTextColor: '#006EAF'
+    labelBoxBorderColor: '#006EAF'
+    labelBoxBkgColor: transparent
+    useGradient: false
+    dropShadow: false
+---
+sequenceDiagram
+    actor Cliente
+    participant C as :OrdersController
+    participant S as :OrdersService
+    participant DB as :AppDbContext
+    participant SQL as SQLite
+
+    Cliente->>C: GET api/orders/user/{userId}/details
+    C->>S: GetDetailsForUserAsync(userId)
+    S->>DB: Users.FirstOrDefaultAsync(Id == userId)
+    DB->>SQL: SELECT ... FROM Users
+    SQL-->>DB: fila
+    DB-->>S: User o null
+    S->>DB: Orders.Include(Items).Where(UserId == userId)
+    DB->>SQL: SELECT ... FROM Orders LEFT JOIN OrderItems
+    SQL-->>DB: filas
+    DB-->>S: órdenes con sus ítems
+    alt sin órdenes
+        S-->>C: lista vacía
+        C-->>Cliente: 404 Not Found
+    else con órdenes
+        S->>DB: Products.Where(Id in productIds)
+        DB->>SQL: SELECT ... FROM Products WHERE Id IN (...)
+        SQL-->>DB: filas
+        DB-->>S: nombres de productos por ID
+        loop por cada ítem de cada orden
+            S->>S: new OrderDetailsForUserDto
+        end
+        S-->>C: lista de OrderDetailsForUserDto
+        C-->>Cliente: 200 OK + detalles
+    end
+```
+
+`OrdersController` depende de la interfaz `IOrdersService`, pero en ejecución
+recibe un `OrdersService` por inyección de dependencias; por eso el diagrama
+muestra el objeto concreto.
+
+`OrdersService` consulta tres colecciones de `AppDbContext`: además de
+`Orders`, lee `Users` para el nombre del cliente y `Products` para los nombres
+de los productos. Es el acoplamiento entre órdenes, usuarios y productos
+mencionado antes. Los productos se cargan en una sola consulta, con los IDs de
+todos los ítems, en lugar de una por ítem. Si el usuario no existe pero tiene
+órdenes, la respuesta igual es `200 OK`, con `CustomerName` en `null`.
+
 ## Ejecutar localmente
 
 Requiere el SDK de .NET 10.
